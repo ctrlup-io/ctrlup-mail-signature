@@ -21,8 +21,8 @@ import { CheckCircle, FileCopy } from "@material-ui/icons";
 function renderHtml(html, css) {
   return `
     <div>
-      <style id="jss-server-side">${css}</style>
-      <div id="root">${html}</div>
+      <style>${css}</style>
+      <div>${html}</div>
     </div>
   `;
 }
