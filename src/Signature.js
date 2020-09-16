@@ -27,10 +27,10 @@ function Signature({ name, tel, title }) {
               <div style={{ fontWeight: 700 }}>{name}</div>
               <div>{title}</div>
               <a
-                href="tel:+33627916220"
+                href={`tel:${+33627916220}`}
                 style={{ textDecoration: "none", color: "#26a69a" }}
               >
-                +33 6 27 91 62 20
+                {tel}
               </a>
               <br />
               <a
