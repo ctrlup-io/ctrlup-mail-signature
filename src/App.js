@@ -8,15 +8,15 @@ import {
 } from "@material-ui/core";
 import {
   ThemeProvider,
-  createMuiTheme,
   makeStyles,
   ServerStyleSheets,
 } from "@material-ui/core/styles";
 import { renderToString } from "react-dom/server";
 import { writeText } from "clipboard-polyfill/text";
+import { CheckCircle, FileCopy } from "@material-ui/icons";
 
 import Signature from "./Signature";
-import { CheckCircle, FileCopy } from "@material-ui/icons";
+import theme from "./theme";
 
 function renderHtml(html, css) {
   return `
@@ -26,23 +26,6 @@ function renderHtml(html, css) {
     </div>
   `;
 }
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#6af0df",
-      main: "#29bdad",
-      dark: "#008c7e",
-      contrastText: "#fff",
-    },
-    secondary: {
-      main: "#5c2c45",
-      light: "#8a5670",
-      dark: "#30031e",
-      contrastText: "#fff",
-    },
-  },
-});
 
 const useStyles = makeStyles(() => ({
   container: {
