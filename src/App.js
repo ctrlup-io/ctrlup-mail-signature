@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  ButtonGroup,
   Container,
   CssBaseline,
   Grid,
@@ -12,7 +13,7 @@ import {
   ServerStyleSheets,
 } from "@material-ui/core/styles";
 import { renderToString } from "react-dom/server";
-import { writeText } from "clipboard-polyfill/text";
+import * as clipboard from "clipboard-polyfill";
 import { CheckCircle, FileCopy } from "@material-ui/icons";
 
 import Signature from "./Signature";
@@ -34,6 +35,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+function renderToHtml(data) {
+  const sheets = new ServerStyleSheets();
+  const html = renderToString(
+    sheets.collect(
+      <ThemeProvider theme={theme}>
+        <Signature {...data} />
+      </ThemeProvider>
+    )
+  );
+  const css = sheets.toString();
+  const document = renderHtml(html, css);
+  return document;
+}
+
 function App() {
   const classes = useStyles();
   const [data, setData] = useState({
@@ -41,24 +56,35 @@ function App() {
     title: "Super hero",
     tel: "+3316180339",
   });
-  const [status, setStatus] = useState(false);
+  const [statusHtml, setStatusHtml] = useState(false);
+  const [statusBlob, setStatusBlob] = useState(false);
   const onChange = (id) => (event) => {
     const value = event.target.value;
     setData((data) => ({ ...data, [id]: value }));
+    setStatusHtml(false);
+    setStatusBlob(false);
   };
-  const onClick = () => {
-    const sheets = new ServerStyleSheets();
-    const html = renderToString(
-      sheets.collect(
-        <ThemeProvider theme={theme}>
-          <Signature {...data} />
-        </ThemeProvider>
-      )
+
+  const onCopyHtml = () => {
+    const document = renderToHtml(data);
+    clipboard.writeText(document).then(
+      () => {
+        setStatusBlob(false);
+        setStatusHtml(true);
+      },
+      () => setStatusHtml(false)
     );
-    const css = sheets.toString();
-    writeText(renderHtml(html, css)).then(
-      () => setStatus(true),
-      () => setStatus(false)
+  };
+
+  const onCopyBlob = () => {
+    const document = renderToHtml(data);
+    const blob = new Blob([document], { type: "text/html" });
+    clipboard.write([new clipboard.ClipboardItem({ "text/html": blob })]).then(
+      () => {
+        setStatusHtml(false);
+        setStatusBlob(true);
+      },
+      () => setStatusBlob(false)
     );
   };
 
@@ -88,7 +114,7 @@ function App() {
                 fullWidth
                 variant="outlined"
                 id="name"
-                value={data?.["name"]}
+                value={data?.name}
                 label="Name"
                 onChange={onChange("name")}
               />
@@ -98,7 +124,7 @@ function App() {
                 fullWidth
                 variant="outlined"
                 id="title"
-                value={data?.["title"]}
+                value={data?.title}
                 label="Position"
                 onChange={onChange("title")}
               />
@@ -108,24 +134,34 @@ function App() {
                 fullWidth
                 variant="outlined"
                 id="tel"
-                value={data?.["tel"]}
+                value={data?.tel}
                 label="Phone number"
                 onChange={onChange("tel")}
               />
             </Grid>
           </Grid>
-          <Grid item component="div" xs={6}>
+          <Grid item xs={6}>
             <Signature {...data} />
-            <Button
-              onClick={onClick}
-              startIcon={
-                status ? <CheckCircle color="primary" /> : <FileCopy />
-              }
-              color="primary"
-              variant={status ? "text" : "contained"}
-            >
-              Copy html in clipboard
-            </Button>
+            <ButtonGroup color="primary">
+              <Button
+                onClick={onCopyHtml}
+                startIcon={
+                  statusHtml ? <CheckCircle color="primary" /> : <FileCopy />
+                }
+                variant={statusHtml ? "text" : "contained"}
+              >
+                Copy html in clipboard
+              </Button>
+              <Button
+                onClick={onCopyBlob}
+                startIcon={
+                  statusBlob ? <CheckCircle color="primary" /> : <FileCopy />
+                }
+                variant={statusBlob ? "text" : "contained"}
+              >
+                Copy image in clipboard
+              </Button>
+            </ButtonGroup>
           </Grid>
         </Grid>
       </Container>
