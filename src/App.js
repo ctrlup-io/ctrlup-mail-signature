@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Button,
-  ButtonGroup,
   Container,
   CssBaseline,
   Grid,
@@ -35,20 +34,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function renderToHtml(data) {
-  const sheets = new ServerStyleSheets();
-  const html = renderToString(
-    sheets.collect(
-      <ThemeProvider theme={theme}>
-        <Signature {...data} />
-      </ThemeProvider>
-    )
-  );
-  const css = sheets.toString();
-  const document = renderHtml(html, css);
-  return document;
-}
-
 function App() {
   const classes = useStyles();
   const [data, setData] = useState({
@@ -56,35 +41,27 @@ function App() {
     title: "Super hero",
     tel: "+3316180339",
   });
-  const [statusHtml, setStatusHtml] = useState(false);
-  const [statusBlob, setStatusBlob] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const onChange = (id) => (event) => {
     const value = event.target.value;
     setData((data) => ({ ...data, [id]: value }));
-    setStatusHtml(false);
-    setStatusBlob(false);
+    setIsCopied(false);
   };
-
-  const onCopyHtml = () => {
-    const document = renderToHtml(data);
-    clipboard.writeText(document).then(
-      () => {
-        setStatusBlob(false);
-        setStatusHtml(true);
-      },
-      () => setStatusHtml(false)
+  const onCopy = () => {
+    const sheets = new ServerStyleSheets();
+    const html = renderToString(
+      sheets.collect(
+        <ThemeProvider theme={theme}>
+          <Signature {...data} />
+        </ThemeProvider>
+      )
     );
-  };
-
-  const onCopyBlob = () => {
-    const document = renderToHtml(data);
+    const css = sheets.toString();
+    const document = renderHtml(html, css);
     const blob = new Blob([document], { type: "text/html" });
     clipboard.write([new clipboard.ClipboardItem({ "text/html": blob })]).then(
-      () => {
-        setStatusHtml(false);
-        setStatusBlob(true);
-      },
-      () => setStatusBlob(false)
+      () => setIsCopied(true),
+      () => setIsCopied(false)
     );
   };
 
@@ -142,26 +119,16 @@ function App() {
           </Grid>
           <Grid item xs={6}>
             <Signature {...data} />
-            <ButtonGroup color="primary">
-              <Button
-                onClick={onCopyHtml}
-                startIcon={
-                  statusHtml ? <CheckCircle color="primary" /> : <FileCopy />
-                }
-                variant={statusHtml ? "text" : "contained"}
-              >
-                Copy html in clipboard
-              </Button>
-              <Button
-                onClick={onCopyBlob}
-                startIcon={
-                  statusBlob ? <CheckCircle color="primary" /> : <FileCopy />
-                }
-                variant={statusBlob ? "text" : "contained"}
-              >
-                Copy image in clipboard
-              </Button>
-            </ButtonGroup>
+            <Button
+              onClick={onCopy}
+              color="primary"
+              startIcon={
+                isCopied ? <CheckCircle color="primary" /> : <FileCopy />
+              }
+              variant={isCopied ? "text" : "contained"}
+            >
+              Copy in clipboard
+            </Button>
           </Grid>
         </Grid>
       </Container>

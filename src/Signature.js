@@ -1,15 +1,24 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Link, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    margin: theme.spacing(2),
-  },
-  logo: {
-    borderRight: "2px solid #35d330",
+    margin: theme.spacing(1),
   },
   name: {
     fontWeight: 700,
+  },
+
+  logo: {
+    borderRightStyle: "solid",
+    borderRightWidth: 1,
+    borderRightColor: theme.palette.primary.main,
+  },
+  text: {
+    borderLeftStyle: "solid",
+    borderLeftWidth: 1,
+    borderLeftColor: theme.palette.primary.main,
   },
 }));
 
@@ -17,32 +26,20 @@ function Signature({ name, tel, title }) {
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <img src="logo96.png" alt="Ctrl Up Logo" />
-            </td>
-            <td style={{ borderLeft: "2px solid #35d330", paddingLeft: 32 }}>
-              <div style={{ fontWeight: 700 }}>{name}</div>
-              <div>{title}</div>
-              <a
-                href={`tel:${tel}`}
-                style={{ textDecoration: "none", color: "#35d330" }}
-              >
-                {tel}
-              </a>
-              <br />
-              <a
-                href="https://www.ctrlup.io/"
-                style={{ textDecoration: "none", color: "#35d330" }}
-              >
-                ctrlup.io
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <Grid container spacing={2}>
+        <Grid item className={classes.logo}>
+          <img src="logo64.png" alt="Ctrl Up Logo" height={64} />
+        </Grid>
+        <Grid item className={classes.text}>
+          <Typography className={classes.name}>{name}</Typography>
+          <Typography>{title}</Typography>
+          <Typography>
+            <Link href={`tel:${tel}`}>{tel}</Link>
+            <br />
+            <Link href="https://www.ctrlup.io/">ctrlup.io</Link>
+          </Typography>
+        </Grid>
+      </Grid>
     </div>
   );
 }
