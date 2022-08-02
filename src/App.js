@@ -6,26 +6,13 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
-import {
-  ThemeProvider,
-  makeStyles,
-  ServerStyleSheets,
-} from "@material-ui/core/styles";
-import { renderToString } from "react-dom/server";
+import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
 import * as clipboard from "clipboard-polyfill";
 import { CheckCircle, FileCopy } from "@material-ui/icons";
 
 import Signature from "./Signature";
 import theme from "./theme";
-
-function renderHtml(html, css) {
-  return `
-    <div>
-      <style>${css}</style>
-      <div>${html}</div>
-    </div>
-  `;
-}
+import renderToString from "./renderToString";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -48,16 +35,11 @@ function App() {
     setIsCopied(false);
   };
   const onCopy = () => {
-    const sheets = new ServerStyleSheets();
-    const html = renderToString(
-      sheets.collect(
-        <ThemeProvider theme={theme}>
-          <Signature {...data} />
-        </ThemeProvider>
-      )
+    const document = renderToString(
+      <ThemeProvider theme={theme}>
+        <Signature {...data} />
+      </ThemeProvider>
     );
-    const css = sheets.toString();
-    const document = renderHtml(html, css);
     const blob = new Blob([document], { type: "text/html" });
     clipboard.write([new clipboard.ClipboardItem({ "text/html": blob })]).then(
       () => setIsCopied(true),

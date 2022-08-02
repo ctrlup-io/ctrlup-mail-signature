@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renderToString renders correctly 1`] = `
+"
+      <div>
+        <style>.button-root-1 {
+  background: red;
+}</style>
+        <div><button class=\\"button-root-1\\">Add</button></div>
+      </div>
+    "
+`;
