@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   name: {
     fontWeight: 700,
   },
-
   logo: {
     borderRightStyle: "solid",
     borderRightWidth: 1,
@@ -31,13 +30,15 @@ function Signature({ name, tel, title }) {
           <img src="logo64.png" alt="Ctrl Up Logo" height={64} />
         </Grid>
         <Grid item className={classes.text}>
-          <Typography className={classes.name}>{name}</Typography>
-          <Typography>{title}</Typography>
-          <Typography>
-            <Link href={`tel:${tel}`}>{tel}</Link>
-            <br />
-            <Link href="https://www.ctrlup.io/">ctrlup.io</Link>
-          </Typography>
+          {name && <Typography className={classes.name}>{name}</Typography>}
+          {title && <Typography>{title}</Typography>}
+          {tel && (
+            <Typography>
+              <Link href={`tel:${tel}`}>{tel}</Link>
+              <br />
+              <Link href="https://www.ctrlup.io/">ctrlup.io</Link>
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </div>
