@@ -26,7 +26,7 @@ function Signature({ name, tel, title }) {
           alignItems: "center",
         }}
       >
-        <img src={logo} alt="Ctrl Up Logo" height={64} />
+        <img src={logo} alt="Ctrl Up Logo" height={92} />
       </div>
       <div
         style={{
