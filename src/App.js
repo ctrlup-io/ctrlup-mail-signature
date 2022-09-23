@@ -8,12 +8,15 @@ import theme from "./theme";
 
 function App() {
   const signature = useRef(null);
+
   const [data, setData] = useState({
     name: "John Doe",
     title: "Super hero",
     tel: "+3316180339",
   });
+
   const [isCopied, setIsCopied] = useState(false);
+
   const onChange = (id) => (event) => {
     const value = event.target.value;
     setData((data) => ({ ...data, [id]: value }));

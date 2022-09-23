@@ -27,8 +27,7 @@
     "@mui/material": "^5.10.6",
     "@mui/system": "^5.10.6",
     "react": "17",
-    "react-dom": "17",
-    "web-vitals": "^3.0.2"
+    "react-dom": "17"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
