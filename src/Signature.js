@@ -1,10 +1,11 @@
+import { string } from "prop-types";
 import React from "react";
 
 import theme from "./theme";
 
 const logo = new URL("../static/logo192.png", import.meta.url);
 
-function Signature({ name, tel, title }) {
+export default function Signature({ name, tel, title }) {
   return (
     <div
       style={{
@@ -69,4 +70,10 @@ function Signature({ name, tel, title }) {
   );
 }
 
-export default Signature;
+export const SignatureTypes = {
+  name: string.isRequired,
+  title: string.isRequired,
+  tel: string.isRequired,
+};
+
+Signature.propTypes = SignatureTypes;
