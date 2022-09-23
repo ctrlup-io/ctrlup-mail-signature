@@ -1,26 +1,25 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { colors, theme } from "@ctrlup/rainbow-react";
+import { createTheme } from "@mui/material/styles";
 
-const theme = createMuiTheme({
+const muiTheme = createTheme(theme, {
   palette: {
+    mode: "light",
     primary: {
-      main: "#35d330",
-      light: "#76ff64",
-      dark: "#00a000",
-      contrastText: "#000",
+      main: colors.BLACK[800],
     },
-    secondary: {
-      main: "#400099",
-      light: "#7638cb",
-      dark: "#00006a",
-      contrastText: "#fff",
+    common: {
+      white: colors.WHITE[50],
+      black: colors.BLACK[800],
+    },
+    text: {
+      primary: colors.BLACK[800],
+      secondary: colors.BLACK[700],
     },
     background: {
-      default: "#fff",
+      default: colors.WHITE[100],
+      paper: colors.WHITE[100],
     },
-  },
-  typography: {
-    fontSize: 12,
   },
 });
 
-export default theme;
+export default muiTheme;

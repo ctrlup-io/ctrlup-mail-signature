@@ -1,28 +1,13 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  TextField,
-} from "@material-ui/core";
-import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
-import * as clipboard from "clipboard-polyfill";
-import { CheckCircle, FileCopy } from "@material-ui/icons";
+import { Button, Container, Grid, TextField } from "@mui/material";
+import { CheckCircle, FileCopy } from "@mui/icons-material";
+import { ThemeProvider } from "@ctrlup/rainbow-react";
+import React, { useRef, useState } from "react";
 
 import Signature from "./Signature";
 import theme from "./theme";
-import renderToString from "./renderToString";
-
-const useStyles = makeStyles(() => ({
-  container: {
-    height: "100vh",
-    overflow: "hidden",
-  },
-}));
 
 function App() {
-  const classes = useStyles();
+  const signature = useRef(null);
   const [data, setData] = useState({
     name: "John Doe",
     title: "Super hero",
@@ -34,29 +19,44 @@ function App() {
     setData((data) => ({ ...data, [id]: value }));
     setIsCopied(false);
   };
+
+  async function copySignatureToClipboard() {
+    const html = signature.current.innerHTML.trim();
+    const blob = new Blob([html], { type: "text/html" });
+    if ("clipboard" in navigator) {
+      return await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+    } else {
+      console.warn("Clipboard API is not supported.");
+    }
+  }
+
   const onCopy = () => {
-    const document = renderToString(
-      <ThemeProvider theme={theme}>
-        <Signature {...data} />
-      </ThemeProvider>
-    );
-    const blob = new Blob([document], { type: "text/html" });
-    clipboard.write([new clipboard.ClipboardItem({ "text/html": blob })]).then(
-      () => setIsCopied(true),
-      () => setIsCopied(false)
-    );
+    copySignatureToClipboard()
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 1500);
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
       <Container>
         <Grid
           container
           justify="center"
           alignItems="center"
-          className={classes.container}
-          spacing={4}
+          height="100vh"
+          overflow="hidden"
+          spacing={12}
         >
           <Grid
             item
@@ -100,8 +100,11 @@ function App() {
             </Grid>
           </Grid>
           <Grid item xs={6}>
-            <Signature {...data} />
+            <div ref={signature}>
+              <Signature {...data} />
+            </div>
             <Button
+              sx={{ mt: 3 }}
               onClick={onCopy}
               color="primary"
               startIcon={

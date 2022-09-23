@@ -1,46 +1,70 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Link, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    margin: theme.spacing(1),
-  },
-  name: {
-    fontWeight: 700,
-  },
-  logo: {
-    borderRightStyle: "solid",
-    borderRightWidth: 1,
-    borderRightColor: theme.palette.primary.main,
-  },
-  text: {
-    borderLeftStyle: "solid",
-    borderLeftWidth: 1,
-    borderLeftColor: theme.palette.primary.main,
-  },
-}));
+import theme from "./theme";
+
+const logo = new URL("../static/logo192.png", import.meta.url);
 
 function Signature({ name, tel, title }) {
-  const classes = useStyles();
   return (
-    <div className={classes.wrapper}>
-      <Grid container spacing={2}>
-        <Grid item className={classes.logo}>
-          <img src="logo64.png" alt="Ctrl Up Logo" height={64} />
-        </Grid>
-        <Grid item className={classes.text}>
-          {name && <Typography className={classes.name}>{name}</Typography>}
-          {title && <Typography>{title}</Typography>}
-          {tel && (
-            <Typography>
-              <Link href={`tel:${tel}`}>{tel}</Link>
-              <br />
-              <Link href="https://www.ctrlup.io/">ctrlup.io</Link>
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
+    <div
+      style={{
+        margin: 8,
+        display: "flex",
+        fontFamily: "'Montserrat', sans-serif",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          paddingLeft: 24,
+          paddingRight: 24,
+          paddingTop: 4,
+          paddingBottom: 4,
+          borderRightStyle: "solid",
+          borderRightWidth: 1,
+          borderRightColor: theme.palette.primary.main,
+          alignItems: "center",
+        }}
+      >
+        <img src={logo} alt="Ctrl Up Logo" height={64} />
+      </div>
+      <div
+        style={{
+          borderLeftStyle: "solid",
+          borderLeftWidth: 1,
+          borderLeftColor: theme.palette.primary.main,
+          paddingLeft: 24,
+          paddingRight: 24,
+          paddingTop: 4,
+          paddingBottom: 4,
+        }}
+      >
+        <div style={{ fontWeight: 700 }}>{name}</div>
+        <div style={{ marginBottom: 8 }}>{title}</div>
+        <div>
+          <a
+            style={{
+              fontWeight: 700,
+              color: theme.palette.primary.main,
+              textDecorationColor: theme.palette.primary.main,
+            }}
+            href={`tel:${tel}`}
+          >
+            {tel}
+          </a>
+          <br />
+          <a
+            style={{
+              fontWeight: 700,
+              color: theme.palette.primary.main,
+              textDecorationColor: theme.palette.primary.main,
+            }}
+            href="https://www.ctrlup.io/"
+          >
+            ctrlup.io
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
