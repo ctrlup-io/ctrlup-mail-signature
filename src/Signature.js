@@ -1,72 +1,50 @@
+import { Box, Link, Typography } from "@mui/material";
 import { string } from "prop-types";
 import React from "react";
-
-import theme from "./theme";
 
 const logo = new URL("../static/logo192.png", import.meta.url);
 
 export default function Signature({ name, tel, title }) {
   return (
-    <div
-      style={{
-        margin: 8,
-        display: "flex",
-        fontFamily: "'Montserrat', sans-serif",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          paddingLeft: 24,
-          paddingRight: 24,
-          paddingTop: 4,
-          paddingBottom: 4,
+    <Box m={2} display="flex">
+      <Box
+        sx={{
           borderRightStyle: "solid",
           borderRightWidth: 1,
-          borderRightColor: theme.palette.primary.main,
-          alignItems: "center",
+          borderRightColor: "primary.main",
         }}
+        px={4}
+        py={1}
+        display="flex"
+        alignItems="center"
       >
         <img src={logo} alt="Ctrl Up Logo" height={92} />
-      </div>
-      <div
-        style={{
+      </Box>
+      <Box
+        sx={{
           borderLeftStyle: "solid",
           borderLeftWidth: 1,
-          borderLeftColor: theme.palette.primary.main,
-          paddingLeft: 24,
-          paddingRight: 24,
-          paddingTop: 4,
-          paddingBottom: 4,
+          borderLeftColor: "primary.main",
         }}
+        px={4}
+        py={1}
+        display="flex"
+        flexDirection="column"
       >
-        <div style={{ fontWeight: 700 }}>{name}</div>
-        <div style={{ marginBottom: 8 }}>{title}</div>
-        <div>
-          <a
-            style={{
-              fontWeight: 700,
-              color: theme.palette.primary.main,
-              textDecorationColor: theme.palette.primary.main,
-            }}
-            href={`tel:${tel}`}
-          >
+        <Typography fontWeight={700}>{name}</Typography>
+        <Typography mb={2}>{title}</Typography>
+        <Box>
+          <Link color="secondary" href={`tel:${tel}`}>
             {tel}
-          </a>
+          </Link>
           <br />
-          <a
-            style={{
-              fontWeight: 700,
-              color: theme.palette.primary.main,
-              textDecorationColor: theme.palette.primary.main,
-            }}
-            href="https://www.ctrlup.io/"
-          >
+
+          <Link color="secondary" href="https://www.ctrlup.io/">
             ctrlup.io
-          </a>
-        </div>
-      </div>
-    </div>
+          </Link>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
