@@ -1,6 +1,9 @@
+import renderRef from "./renderRef";
+
 export default async function copySignatureToClipboard(ref) {
-  const html = ref.current.innerHTML.trim();
-  const blob = new Blob([html], { type: "text/html" });
+  const text = renderRef(ref);
+  console.log(text);
+  const blob = new Blob([text], { type: "text/html" });
   if ("clipboard" in navigator) {
     await navigator.clipboard.write([
       new window.ClipboardItem({

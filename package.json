@@ -20,7 +20,7 @@
     ]
   },
   "dependencies": {
-    "@ctrlup/rainbow-react": "^2.1.1",
+    "@ctrlup/rainbow-react": "^2.2.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",

@@ -20,6 +20,19 @@ const muiTheme = createTheme(theme, {
       paper: colors.WHITE[100],
     },
   },
+  components: {
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          background: null,
+          WebkitBackgroundClip: null,
+          MozBackgroundClip: null,
+          WebkitTextFillColor: null,
+          MozTextFillColor: null,
+        },
+      },
+    },
+  },
 });
 
 export default muiTheme;
